@@ -1,14 +1,15 @@
 {
-  "name": "admin-config",
-  "version": "0.12.2",
-  "private": false,
+  "name": "ng-admin-config",
+  "version": "2.12.3",
+  "private": true,
   "files": [
       "*.md",
-      "lib"
+      "lib",
+      "src"
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/marmelab/admin-config.git"
+    "url": "ssh://git@codebase.drivecred.com:7999/hbk/ng-admin-config.git"
   },
   "engines": {
     "node": ">=0.10.0"
