@@ -199,6 +199,18 @@ class Entity {
         this._deleteMethod = deleteMethod;
         return this;
     }
+
+    requestInterceptor(requestInterceptor) {
+        if (!arguments.length) return this._requestInterceptor;
+        this._requestInterceptor = requestInterceptor;
+        return this;
+    }
+
+    responseInterceptor(responseInterceptor) {
+        if (!arguments.length) return this._responseInterceptor;
+        this._responseInterceptor = responseInterceptor;
+        return this;
+    }
 }
 
 export default Entity;

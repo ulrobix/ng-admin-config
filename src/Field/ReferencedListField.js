@@ -46,6 +46,16 @@ class ReferencedListField extends ReferenceField {
         return this._targetEntity.name() + '_ListView.' + this.sortField();
     }
 
+    actions(actions) {
+        if (!arguments.length) {
+            return this._actions;
+        }
+
+        this._actions = actions;
+
+        return this;
+    }
+
     listActions(actions) {
         if (!arguments.length) {
             return this._listActions;

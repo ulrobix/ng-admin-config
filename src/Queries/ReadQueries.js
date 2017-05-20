@@ -202,7 +202,7 @@ class ReadQueries extends Queries {
      *
      * @returns {Promise}
      */
-    getAllReferencedData(references, search) {
+    getAllReferencedData(references, search, filters) {
         if (!references || !Object.keys(references).length) {
             return this._promisesResolver.empty({});
         }
@@ -214,12 +214,11 @@ class ReadQueries extends Queries {
             let reference = references[i];
             let targetEntity = reference.targetEntity();
 
-            const permanentFilters = reference.permanentFilters();
-            let filterValues = permanentFilters || {};
-
-            if (typeof(permanentFilters) === 'function') {
-                console.warn('Reference.permanentFilters() called with a function is deprecated. Use the searchQuery option for remoteComplete() instead');
-                filterValues = permanentFilters(search);
+            let filterValues = {};
+            if (filters) {
+                Object.keys(filters).forEach(key => {
+                    filterValues[key] = filters[key];
+                });
             }
 
             if (search) {

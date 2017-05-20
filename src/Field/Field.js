@@ -240,6 +240,23 @@ class Field {
         this._templateIncludesLabel = templateIncludesLabel;
         return this;
     }
+
+    condition(condition) {
+        if (!arguments.length) return this._condition;
+        this._condition = condition;
+        return this;
+    }
+
+    messages(messages) {
+        if (!arguments.length) {
+            return this._messages;
+        }
+
+        this._messages = messages;
+
+        return this;
+    }
+
 }
 
 export default Field;

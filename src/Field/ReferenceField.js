@@ -45,31 +45,18 @@ class ReferenceField extends Field {
     }
 
     /**
-     * Define permanent filters to be added to the REST API calls
-     *
-     *     nga.field('post_id', 'reference').permanentFilters({
-     *        published: true
-     *     });
-     *     // related API call will be /posts/:id?published=true
-     *
-     * @param {Object} filters list of filters to apply to the call
+     * @deprecated use filters() instead
      */
     permanentFilters(filters) {
-        if (!arguments.length) {
-            return this._permanentFilters;
-        }
-
-        this._permanentFilters = filters;
-
-        return this;
+        console.warn('ReferenceField.permanentFilters() is deprecated, please use ReferenceField.filters() instead');
+        if (!arguments.length) return this.filters();
+        return this.filters(filters);
     }
 
-    /**
-     * @deprecated use permanentFilters() instead
-     */
     filters(filters) {
-        console.warn('ReferenceField.filters() is deprecated, please use ReferenceField.permanentFilters() instead');
-        return this.permanentFilters(filters);
+        if (!arguments.length) return this._filters;
+        this._filters = filters;
+        return this;
     }
 
     sortField() {
