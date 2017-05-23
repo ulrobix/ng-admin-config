@@ -15,7 +15,7 @@ class Field {
         this._defaultValue = null;
         this._editable = true;
         this._sortable = true;
-        this._detailLinkRoute = 'edit';
+        this._detailLinkRoute = 'show';
         this._pinned = false;
         this._flattenable = true;
         this.dashboard = true;
