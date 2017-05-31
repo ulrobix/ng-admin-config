@@ -1,6 +1,6 @@
 import Entry from '../Entry';
 import ReferenceExtractor from '../Utils/ReferenceExtractor';
-import { clone, cloneAndFlatten, cloneAndNest } from '../Utils/objectProperties';
+import FieldCollection from '../Field/FieldCollection';
 
 class View {
     constructor(name) {
@@ -11,17 +11,18 @@ class View {
         this._template = null;
 
         this._enabled = null;
-        this._fields = [];
         this._type = null;
         this._name = name;
         this._order = 0;
         this._errorMessage = null;
         this._url = null;
         this._prepare = null;
+
+        this._fieldCollection = null;
     }
 
     get enabled() {
-        return this._enabled === null ? !!this._fields.length : this._enabled;
+        return this._enabled === null ? !!this._fieldCollection.length : this._enabled;
     }
 
     title(title) {
@@ -83,6 +84,8 @@ class View {
             this._name = entity.name() + '_' + this._type;
         }
 
+        this._fieldCollection = new FieldCollection(entity.factory);
+
         return this;
     }
 
@@ -95,62 +98,38 @@ class View {
      * fields({Field2, Field3})
      */
     fields() {
-        if (!arguments.length) return this._fields;
+        if (!arguments.length) return this._fieldCollection.fields();
 
-        [].slice.call(arguments).map(function(argument) {
-            View.flatten(argument).map(arg => this.addField(arg));
-        }, this);
+        this._fieldCollection.fields.apply(this._fieldCollection, arguments);
 
         return this;
     }
 
     hasFields() {
-        return this.fields.length > 0;
+        return !this._fieldCollection.isEmpty();
     }
 
     removeFields() {
-        this._fields = [];
+        this._fieldCollection.clear();
         return this;
     }
 
     getFields() {
-        return this._fields;
+        return this._fieldCollection.fields();
     }
 
     getField(fieldName) {
-        return this._fields.filter(f => f.name() === fieldName)[0];
+        return this._fieldCollection.getField(fieldName);
     }
 
     getFieldsOfType(type) {
-        return this._fields.filter(f => f.type() === type);
+        return this._fieldCollection.getFieldsOfType(type);
     }
 
     addField(field) {
-        if (field.order() === null) {
-            field.order(this._fields.length, true);
-        }
-        this._fields.push(field);
-        this._fields = this._fields.sort((a, b) => (a.order() - b.order()));
+        this._fieldCollection.addField(field);
 
         return this;
-    }
-
-    static flatten(arg) {
-        if (arg.constructor.name === 'Object') {
-            console.warn('Passing literal of Field to fields method is deprecated use array instead');
-            let result = [];
-            for (let fieldName in arg) {
-                result = result.concat(View.flatten(arg[fieldName]));
-            }
-            return result;
-        }
-        if (Array.isArray(arg)) {
-            return arg.reduce(function(previous, current) {
-                return previous.concat(View.flatten(current))
-            }, []);
-        }
-        // arg is a scalar
-        return [arg];
     }
 
     get type() {
@@ -164,19 +143,19 @@ class View {
     }
 
     getReferences(withRemoteComplete) {
-        return ReferenceExtractor.getReferences(this._fields, withRemoteComplete);
+        return ReferenceExtractor.getReferences(this._fieldCollection.fields(), withRemoteComplete);
     }
 
     getNonOptimizedReferences(withRemoteComplete) {
-        return ReferenceExtractor.getNonOptimizedReferences(this._fields, withRemoteComplete);
+        return ReferenceExtractor.getNonOptimizedReferences(this._fieldCollection.fields(), withRemoteComplete);
     }
 
     getOptimizedReferences(withRemoteComplete) {
-        return ReferenceExtractor.getOptimizedReferences(this._fields, withRemoteComplete);
+        return ReferenceExtractor.getOptimizedReferences(this._fieldCollection.fields(), withRemoteComplete);
     }
 
     getReferencedLists() {
-        return ReferenceExtractor.getReferencedLists(this._fields);
+        return ReferenceExtractor.getReferencedLists(this._fieldCollection.fields());
     }
 
     template(template) {
@@ -228,7 +207,7 @@ class View {
     }
 
     validate(entry) {
-        this._fields.map(function (field) {
+        this._fieldCollection.fields().map(function (field) {
             let validation = field.validation();
 
             if (typeof validation.validator === 'function') {
@@ -241,18 +220,18 @@ class View {
      * Map a JS object from the REST API Response to an Entry
      */
     mapEntry(restEntry) {
-        return Entry.createFromRest(restEntry, this._fields, this.entity.name(), this.entity.identifier().name());
+        return Entry.createFromRest(restEntry, this._fieldCollection.fields(), this.entity.name(), this.entity.identifier().name());
     }
 
     mapEntries(restEntries) {
-        return Entry.createArrayFromRest(restEntries, this._fields, this.entity.name(), this.entity.identifier().name());
+        return Entry.createArrayFromRest(restEntries, this._fieldCollection.fields(), this.entity.name(), this.entity.identifier().name());
     }
 
     /**
      * Transform an Entry to a JS object for the REST API Request
      */
     transformEntry(entry) {
-        return entry.transformToRest(this._fields);
+        return entry.transformToRest(this._fieldCollection.fields());
     }
 
     /**

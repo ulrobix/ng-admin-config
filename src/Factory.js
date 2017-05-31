@@ -42,7 +42,7 @@ class Factory {
     }
 
     entity(name) {
-        return new Entity(name);
+        return new Entity(this, name);
     }
 
     field(name, type) {

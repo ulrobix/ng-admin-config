@@ -7,12 +7,22 @@ function isObject(value) {
 }
 
 export function clone(object) {
-    return Object.keys(object).reduce((values, name) => {
-        if (object.hasOwnProperty(name)) {
-            values[name] = object[name];
-        }
-        return values;
-    }, {});
+    if (typeof object !== 'object') {
+        throw new Error('Expecting an object parameter');
+    }
+
+    if (object == null) {
+        return null;
+    }
+
+    var clone = Object.create(Object.getPrototypeOf(object));
+    var keys = Object.getOwnPropertyNames(object);
+
+    for (var i = 0; i < keys.length; i++) {
+        clone[keys[i]] = object[keys[i]];
+    }
+
+    return clone;
 }
 
 /*

@@ -9,11 +9,13 @@ import DeleteView from '../View/DeleteView';
 import ShowView from '../View/ShowView';
 import BatchDeleteView from '../View/BatchDeleteView';
 import ExportView from '../View/ExportView';
+import FieldCollection from '../Field/FieldCollection';
 
 var index = 0;
 
 class Entity {
-    constructor(name) {
+    constructor(factory, name) {
+        this._factory = factory;
         this._name = name;
         this._uniqueId = this._name + '_' + index++;
         this._baseApiUrl = null;
@@ -27,9 +29,13 @@ class Entity {
         this._updateMethod = null; // manually set the HTTP-method for update operation, defaults to put
         this._retrieveMethod = null; // manually set the HTTP-method for the get operation, defaults to get
         this._deleteMethod = null; // manually set the HTTP-method for the delete operation, defaults to delete
-
+        this._fieldCollection = new FieldCollection(factory);
 
         this._initViews();
+    }
+
+    get factory() {
+        return this._factory;
     }
 
     get uniqueId() {
@@ -197,6 +203,14 @@ class Entity {
     deleteMethod(deleteMethod) {
         if (!arguments.length) return this._deleteMethod;
         this._deleteMethod = deleteMethod;
+        return this;
+    }
+
+    fields() {
+        if (!arguments.length) return this._fieldCollection.fields();
+
+        this._fieldCollection.fields.apply(this._fieldCollection, arguments);
+
         return this;
     }
 

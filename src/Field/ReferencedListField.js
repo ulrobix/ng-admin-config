@@ -87,6 +87,17 @@ class ReferencedListField extends ReferenceField {
     getOptimizedReferences(withRemoteComplete) {
         return ReferenceExtractor.getOptimizedReferences(this._targetFields, withRemoteComplete);
     }
+
+/*
+    clone() {
+        var clone = objectProperties.clone(this);
+        clone._maps = this._maps.slice();
+        clone._transforms = this._transforms.slice();
+        clone._attributes = objectProperties.clone(this._attributes);
+        clone._validation = objectProperties.clone(this._validation);
+        return clone;
+    }
+*/
 }
 
 export default ReferencedListField;

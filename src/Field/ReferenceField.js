@@ -156,6 +156,17 @@ class ReferenceField extends Field {
         this._remoteCompleteOptions = options;
         return this;
     }
+
+/*
+    clone() {
+        var clone = objectProperties.clone(this);
+        clone._maps = this._maps.slice();
+        clone._transforms = this._transforms.slice();
+        clone._attributes = objectProperties.clone(this._attributes);
+        clone._validation = objectProperties.clone(this._validation);
+        return clone;
+    }
+*/
 }
 
 export default ReferenceField;

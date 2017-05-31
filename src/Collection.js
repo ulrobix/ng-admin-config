@@ -1,4 +1,5 @@
 import ListView from './View/ListView';
+import FieldCollection from './Field/FieldCollection';
 
 class Collection extends ListView {
 
@@ -7,6 +8,9 @@ class Collection extends ListView {
         if (!this._name) {
             this._name = entity.name();
         }
+
+        this._fieldCollection = new FieldCollection(entity.factory);
+
         return this;
     }
 }

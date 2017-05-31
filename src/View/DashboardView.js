@@ -1,4 +1,5 @@
 import ListView from './ListView';
+import FieldCollection from '../Field/FieldCollection';
 
 class DashboardView extends ListView {
     setEntity(entity) {
@@ -6,6 +7,9 @@ class DashboardView extends ListView {
         if (!this._name) {
             this._name = entity.name();
         }
+
+        this._fieldCollection = new FieldCollection(entity.factory);
+
         return this;
     }
 }

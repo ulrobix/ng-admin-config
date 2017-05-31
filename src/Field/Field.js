@@ -1,4 +1,5 @@
 import stringUtils from "../Utils/stringUtils";
+import * as objectProperties from "../Utils/objectProperties";
 
 class Field {
     constructor(name) {
@@ -247,16 +248,14 @@ class Field {
         return this;
     }
 
-    messages(messages) {
-        if (!arguments.length) {
-            return this._messages;
-        }
-
-        this._messages = messages;
-
-        return this;
+    clone() {
+        var clone = objectProperties.clone(this);
+        clone._maps = this._maps.slice();
+        clone._transforms = this._transforms.slice();
+        clone._attributes = objectProperties.clone(this._attributes);
+        clone._validation = objectProperties.clone(this._validation);
+        return clone;
     }
-
 }
 
 export default Field;
