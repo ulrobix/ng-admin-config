@@ -89,6 +89,23 @@ class DataStore {
 
         return result;
     }
+
+    fillEntryFromReference(entry, field) {
+        var id = entry.values[field.name()],
+            targetIdentifier = field.targetEntity().identifier().name(),
+            datastoreEntry = this.getFirstEntry(field.targetEntity().uniqueId + '_values', (datastoreEntry) => {
+                return datastoreEntry.values[targetIdentifier] == id;
+            });
+
+        var keys = Object.getOwnPropertyNames(datastoreEntry.values);
+
+        for (var i = 0; i < keys.length; i++) {
+            var propertyValue = datastoreEntry.values[keys[i]];
+            if (typeof propertyValue != 'function') {
+                entry.values[field.name() + '.' + keys[i]] = propertyValue;
+            }
+        }
+    }
 }
 
 export default DataStore;
