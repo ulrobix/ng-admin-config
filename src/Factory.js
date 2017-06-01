@@ -25,6 +25,7 @@ import ReferenceManyField from "./Field/ReferenceManyField";
 import TemplateField from "./Field/TemplateField";
 import TextField from "./Field/TextField";
 import WysiwygField from "./Field/WysiwygField";
+import SectionField from "./Field/SectionField";
 
 import Menu from './Menu/Menu';
 import Collection from './Collection';
@@ -123,6 +124,7 @@ class Factory {
         this.registerFieldType('template', TemplateField);
         this.registerFieldType('text', TextField);
         this.registerFieldType('wysiwyg', WysiwygField);
+        this.registerFieldType('section', SectionField);
     }
 }
 
