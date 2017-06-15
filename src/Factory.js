@@ -72,8 +72,8 @@ class Factory {
         return menu;
     }
 
-    dashboard() {
-        return new Dashboard();
+    dashboard(name) {
+        return new Dashboard(name);
     }
 
     collection(entity) {

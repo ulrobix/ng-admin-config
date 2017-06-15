@@ -1,7 +1,17 @@
 class Dashboard {
-    constructor() {
+    constructor(name) {
+        this._name = name;
         this._collections = {};
         this._template = null;
+    }
+
+    name() {
+        if (arguments.length) {
+            this._name = arguments[0];
+            return this;
+        }
+
+        return this._name;
     }
 
     addCollection(collection) {

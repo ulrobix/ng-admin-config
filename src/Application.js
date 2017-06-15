@@ -15,6 +15,7 @@ class Application {
         this._entities = [];
         this._errorMessage = this.defaultErrorMessage;
         this._debug = debug;
+        this._dashboards = {};
     }
 
     defaultErrorMessage(response) {
@@ -131,7 +132,7 @@ class Application {
     }
 
     buildDashboardFromEntities() {
-        let dashboard = new Dashboard()
+        let dashboard = new Dashboard('main')
         this.entities
             .filter(entity => entity.dashboardView().enabled)
             .map(entity => {
@@ -154,6 +155,25 @@ class Application {
                     dashboard.addCollection(collection);
                 });
         }
+        return dashboard;
+    }
+
+    addDashboard(dashboard) {
+        if (!dashboard) {
+            throw new Error("No dashboard given");
+        }
+
+        this._dashboards[dashboard.name()] = dashboard;
+
+        return this;
+    }
+
+    getDashboard(dashboardName) {
+        var dashboard = this._dashboards[dashboardName];
+        if (!dashboard) {
+            throw new Error(`Unable to find dashboard "${dashboardName}"`);
+        }
+
         return dashboard;
     }
 
