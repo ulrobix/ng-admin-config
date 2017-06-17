@@ -29,6 +29,7 @@ import SectionField from "./Field/SectionField";
 
 import Menu from './Menu/Menu';
 import Collection from './Collection';
+import Chart from './Chart/Chart';
 import Dashboard from './Dashboard';
 import Entry from './Entry';
 
@@ -82,6 +83,12 @@ class Factory {
             collection.setEntity(entity);
         }
         return collection;
+    }
+
+    chart(type, entity) {
+        let chart = new Chart(type);
+        chart.setEntity(entity);
+        return chart;
     }
 
     getEntryConstructor() {

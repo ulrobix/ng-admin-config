@@ -1,7 +1,7 @@
 class Dashboard {
     constructor(name) {
         this._name = name;
-        this._collections = {};
+        this._widgets = {};
         this._template = null;
     }
 
@@ -15,20 +15,32 @@ class Dashboard {
     }
 
     addCollection(collection) {
-        this._collections[collection.name()] = collection;
-        return this;
+        return this.addWidget(collection);
     }
 
     collections(collections) {
         if (arguments.length) {
-            this._collections = collections;
+//            this._collections = collections;
             return this;
         }
-        return this._collections;
+        return this.widgets;
+    }
+
+    addWidget(widget) {
+        this._widgets[widget.name()] = widget;
+        return this;
+    }
+
+    get widgets() {
+        return this._widgets;
     }
 
     hasCollections() {
         return Object.keys(this._collections).length > 0;
+    }
+
+    hasWidgets() {
+        return Object.keys(this._widgets).length > 0;
     }
 
     template(template) {
