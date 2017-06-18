@@ -120,19 +120,19 @@ class Application {
         );
     }
 
-    dashboard(dashboard) {
+    primaryDashboard(primaryDashboard) {
         if (!arguments.length) {
-                if (!this._dashboard) {
-                    this._dashboard = this.buildDashboardFromEntities();
+                if (!this._dashboards['primary']) {
+                    this.addDashboard(this.buildDashboardFromEntities());
                 }
-                return this._dashboard
+                return this._dashboards['primary'];
         }
-        this._dashboard = dashboard;
+        this.addDashboard(primaryDashboard);
         return this;
     }
 
     buildDashboardFromEntities() {
-        let dashboard = new Dashboard('main')
+        let dashboard = new Dashboard('primary')
         this.entities
             .filter(entity => entity.dashboardView().enabled)
             .map(entity => {
@@ -170,8 +170,14 @@ class Application {
 
     getDashboard(dashboardName) {
         var dashboard = this._dashboards[dashboardName];
+
         if (!dashboard) {
-            throw new Error(`Unable to find dashboard "${dashboardName}"`);
+            if (dashboardName != 'primary') {
+                throw new Error(`Unable to find dashboard "${dashboardName}"`);
+            }
+
+            dashboard = this.buildDashboardFromEntities();
+            this.addDashboard(dashboard);
         }
 
         return dashboard;

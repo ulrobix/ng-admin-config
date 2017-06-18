@@ -48,6 +48,33 @@ class Chart extends ListView {
         return this;
     }
 
+    backgroundColor(backgroundColor) {
+        if (!arguments.length) {
+            return this._backgroundColor;
+        }
+
+        this._backgroundColor = backgroundColor;
+        return this;
+    }
+
+    borderColor(borderColor) {
+        if (!arguments.length) {
+            return this._borderColor;
+        }
+
+        this._borderColor = borderColor;
+        return this;
+    }
+
+    borderWidth(borderWidth) {
+        if (!arguments.length) {
+            return this._borderWidth;
+        }
+
+        this._borderWidth = borderWidth;
+        return this;
+    }
+
     options(options) {
         if (!arguments.length) {
             return this._options;

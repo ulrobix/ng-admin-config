@@ -36,7 +36,7 @@ class Dashboard {
     }
 
     hasCollections() {
-        return Object.keys(this._collections).length > 0;
+        return Object.keys(this._widgets).length > 0;
     }
 
     hasWidgets() {
