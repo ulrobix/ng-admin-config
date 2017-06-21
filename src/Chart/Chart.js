@@ -10,7 +10,10 @@ class Chart extends ListView {
         this._description = '';
         this._chartType = chartType;
         this._labelField = null;
-        this._dataField = null;
+        this._labelOrder = null;
+        this._datasetField = null;
+        this._datasetOrder = null;
+        this._valueField = null;
         this._options = null;
         this._fieldCollection = null;
     }
@@ -39,12 +42,21 @@ class Chart extends ListView {
         return this;
     }
 
-    dataField(dataField) {
+    datasetField(datasetField) {
         if (!arguments.length) {
-            return this._dataField;
+            return this._datasetField;
         }
 
-        this._dataField = dataField;
+        this._datasetField = datasetField;
+        return this;
+    }
+
+    valueField(valueField) {
+        if (!arguments.length) {
+            return this._valueField;
+        }
+
+        this._valueField = valueField;
         return this;
     }
 

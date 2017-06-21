@@ -1,6 +1,14 @@
 import stringUtils from "../Utils/stringUtils";
 import * as objectProperties from "../Utils/objectProperties";
 
+function comparator(value1, value2) {
+    value1 = value1.toString();
+    value2 = value2.toString();
+    if (value1 > value2) return 1;
+    else if (value1 < value2) return -1;
+    else return 0;
+}
+
 class Field {
     constructor(name) {
         this._name = name || Math.random().toString(36).substring(7);
@@ -23,6 +31,8 @@ class Field {
         this.list = true;
         this._template = () => '';
         this._templateIncludesLabel = false;
+        this._comparator = comparator;
+        this._reverseOrder = false;
     }
 
     label() {
@@ -245,6 +255,18 @@ class Field {
     condition(condition) {
         if (!arguments.length) return this._condition;
         this._condition = condition;
+        return this;
+    }
+
+    comparator(comparator) {
+        if (!arguments.length) return this._comparator;
+        this._comparator = comparator;
+        return this;
+    }
+
+    reverseOrder(reverseOrder) {
+        if (!arguments.length) return this._reverseOrder;
+        this._reverseOrder = reverseOrder;
         return this;
     }
 

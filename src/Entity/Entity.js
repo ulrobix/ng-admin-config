@@ -225,6 +225,7 @@ class Entity {
         this._responseInterceptor = responseInterceptor;
         return this;
     }
+
 }
 
 export default Entity;

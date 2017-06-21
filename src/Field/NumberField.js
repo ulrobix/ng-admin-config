@@ -1,10 +1,17 @@
 import Field from "./Field";
 
+function comparator(value1, value2) {
+    if (value1 > value2) return 1;
+    else if (value1 < value2) return -1;
+    else return 0;
+}
+
 class NumberField extends Field {
     constructor(name) {
         super(name);
         this._type = "number";
         this._format = undefined;
+        this._comparator = comparator;
     }
 
     /**
