@@ -174,24 +174,28 @@ class ReadQueries extends Queries {
      * @returns {Promise}
      */
     getOptimizedReferenceData(references, rawValues) {
-        if (!references || !Object.keys(references).length) {
-            return this._promisesResolver.empty({});
-        }
-
         let getRawValues = this.getRawValues.bind(this),
             calls = [];
 
+        let fillReferences = [];
         for (let i in references) {
             let reference = references[i],
                 targetEntity = reference.targetEntity(),
                 identifiers = reference.getIdentifierValues(rawValues);
 
-            // Check if we should retrieve values with 1 or multiple requests
-            let singleCallFilters = reference.getSingleApiCall(identifiers);
-            calls.push(getRawValues(targetEntity, targetEntity.name() + '_ListView', 'listView', 1, reference.perPage(), singleCallFilters, {}, reference.sortField(), reference.sortDir()));
+            if (identifiers.length > 0) {
+                // Check if we should retrieve values with 1 or multiple requests
+                let singleCallFilters = reference.getSingleApiCall(identifiers);
+                calls.push(getRawValues(targetEntity, targetEntity.name() + '_ListView', 'listView', 1, reference.perPage(), singleCallFilters, {}, reference.sortField(), reference.sortDir()));
+                fillReferences.push(reference);
+            }
         }
 
-        return this.fillOptimizedReferencedData(calls, references);
+        if (!fillReferences || !Object.keys(fillReferences).length) {
+            return this._promisesResolver.empty({});
+        }
+
+        return this.fillOptimizedReferencedData(calls, fillReferences);
     }
 
     /**
