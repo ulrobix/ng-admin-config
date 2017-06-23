@@ -2,6 +2,7 @@ import Application from "./Application";
 import Entity from "./Entity/Entity";
 import DataStore from "./DataStore/DataStore";
 import PromisesResolver from "./Utils/PromisesResolver";
+import FieldComparatorFactory from './Utils/FieldComparatorFactory';
 
 import ReadQueries from "./Queries/ReadQueries";
 import WriteQueries from "./Queries/WriteQueries";
@@ -109,6 +110,10 @@ class Factory {
 
     getPromisesResolver() {
         return PromisesResolver;
+    }
+
+    getFieldComparatorFactory() {
+        return new FieldComparatorFactory();
     }
 
     _init() {

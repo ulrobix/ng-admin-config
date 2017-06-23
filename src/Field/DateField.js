@@ -1,13 +1,5 @@
 import Field from "./Field";
 
-function comparator(value1, value2) {
-    value1 = value1.getTime();
-    value2 = value2.getTime();
-    if (value1 > value2) return 1;
-    else if (value1 < value2) return -1;
-    else return 0;
-}
-
 class DateField extends Field {
     constructor(name) {
         super(name);
@@ -26,7 +18,6 @@ class DateField extends Field {
             return date;
         };
         this._type = "date";
-        this._comparator = comparator;
     }
 
     format(value) {

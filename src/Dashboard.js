@@ -3,6 +3,7 @@ class Dashboard {
         this._name = name;
         this._widgets = {};
         this._template = null;
+        this._prepare = null;
     }
 
     name() {
@@ -50,6 +51,17 @@ class Dashboard {
         }
         return this._template;        
     }
+
+    prepare(prepare) {
+        if (!arguments.length) return this._prepare;
+        this._prepare = prepare;
+        return this;
+    }
+
+    doPrepare() {
+        return this._prepare.apply(this, arguments);
+    }
+
 }
 
 export default Dashboard;

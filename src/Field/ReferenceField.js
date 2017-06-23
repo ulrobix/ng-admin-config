@@ -9,7 +9,6 @@ class ReferenceField extends Field {
         this._perPage = 30;
         this._permanentFilters = null;
         this._sortField = null;
-        this._sortDir = null;
         this._singleApiCall = false;
         this._detailLink = true;
         this._remoteComplete = false;
@@ -66,15 +65,6 @@ class ReferenceField extends Field {
         }
 
         return this._sortField;
-    }
-
-    sortDir() {
-        if (arguments.length) {
-            this._sortDir = arguments[0];
-            return this;
-        }
-
-        return this._sortDir;
     }
 
     singleApiCall(singleApiCall) {
