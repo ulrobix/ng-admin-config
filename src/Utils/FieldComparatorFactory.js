@@ -42,9 +42,12 @@ function createSortDirComparator(field, comparator) {
 
 export default class FieldComparatorFactory {
 
-
     create(field, datastore) {
-        function createNoSortDir() {
+        function createNoSortDirComparator() {
+            if (field.comparator()) {
+                return field.comparator();
+            }
+
             let type = field.type();
             switch (type) {
                 case 'boolean':
@@ -77,7 +80,7 @@ export default class FieldComparatorFactory {
             }
         }
 
-        return createSortDirComparator(field, createNoSortDir());
+        return createSortDirComparator(field, createNoSortDirComparator());
     }
 
 }

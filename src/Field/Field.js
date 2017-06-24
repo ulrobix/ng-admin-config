@@ -24,6 +24,7 @@ class Field {
         this._template = () => '';
         this._templateIncludesLabel = false;
         this._sortDir = null;
+        this._comparator = null;
     }
 
     label() {
@@ -246,6 +247,12 @@ class Field {
     condition(condition) {
         if (!arguments.length) return this._condition;
         this._condition = condition;
+        return this;
+    }
+
+    comparator(comparator) {
+        if (!arguments.length) return this._comparator;
+        this._comparator = comparator;
         return this;
     }
 

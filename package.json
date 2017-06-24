@@ -1,6 +1,6 @@
 {
   "name": "ng-admin-config",
-  "version": "2.12.14",
+  "version": "2.12.15",
   "private": true,
   "files": [
       "*.md",
