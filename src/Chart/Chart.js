@@ -10,12 +10,11 @@ class Chart extends ListView {
         this._description = '';
         this._chartType = chartType;
         this._labelField = null;
-        this._labelOrder = null;
         this._datasetField = null;
-        this._datasetOrder = null;
         this._valueField = null;
         this._options = null;
         this._fieldCollection = null;
+        this._tooltip = null;
     }
 
     setEntity(entity) {
@@ -93,6 +92,15 @@ class Chart extends ListView {
         }
 
         this._options = options;
+        return this;
+    }
+
+    tooltip(tooltip) {
+        if (!arguments.length) {
+            return this._tooltip;
+        }
+
+        this._tooltip = tooltip;
         return this;
     }
 }
